@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <h2 class="mb-4 fw-bold">Add New Property</h2>
+
+            <div class="card shadow-sm form-card">
+                <div class="card-body">
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-3">
+                            {{ form.title.label(class="form-label fw-bold") }}
+                            {{ form.title(class="form-control") }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.description.label(class="form-label fw-bold") }}
+                            {{ form.description(class="form-control") }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.rooms.label(class="form-label fw-bold") }}
+                                {{ form.rooms(class="form-control") }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                {{ form.bathrooms.label(class="form-label fw-bold") }}
+                                {{ form.bathrooms(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.price.label(class="form-label fw-bold") }}
+                                {{ form.price(class="form-control") }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                {{ form.property_type.label(class="form-label fw-bold") }}
+                                {{ form.property_type(class="form-select") }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.location.label(class="form-label fw-bold") }}
+                                {{ form.location(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.photo.label(class="form-label fw-bold d-block") }}
+
+                            <label class="btn btn-light border">
+                                Browse {{ form.photo(style="display:none") }}
+                            </label>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Add Property
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

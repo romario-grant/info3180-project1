@@ -5,9 +5,12 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
-from app import app
-from flask import render_template, request, redirect, url_for
-
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash
+from werkzeug.utils import secure_filename
+from app.forms import PropertyForm
+from app.models import Property
+import os
 
 ###
 # Routing for your application.
@@ -22,8 +25,45 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Romario Grant")
 
+@app.route('/properties/create', methods=['GET', 'POST'])
+def create_property():
+    form = PropertyForm()
+
+    if form.validate_on_submit():
+        photo = form.photo.data
+        filename = secure_filename(photo.filename)
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        new_property = Property(
+            title=form.title.data,
+            description=form.description.data,
+            rooms=form.rooms.data,
+            bathrooms=form.bathrooms.data,
+            price=form.price.data,
+            property_type=form.property_type.data,
+            location=form.location.data,
+            photo=filename
+        )
+
+        db.session.add(new_property)
+        db.session.commit()
+
+        flash('Property added.', 'success')
+        return redirect(url_for('properties'))
+
+    return render_template('add_property.html', form=form)
+
+@app.route('/properties')
+def properties():
+    properties = Property.query.all()
+    return render_template('properties.html', properties=properties)
+
+@app.route('/properties/<int:propertyid>')
+def property_details(propertyid):
+    property = Property.query.get_or_404(propertyid)
+    return render_template('property.html', property=property)
 
 ###
 # The functions below should be applicable to all Flask apps.

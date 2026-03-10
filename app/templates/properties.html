@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="container mt-5">
+
+    <h1 class="mb-4 fw-bold">Properties</h1>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for property in properties %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+
+                <img
+                    src="{{ url_for('static', filename='uploads/' + property.photo) }}"
+                    class="card-img-top object-fit-cover"
+                    alt="Property Photo"
+                    style="height: 250px;"
+                >
+
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ property.title }}</h5>
+
+                    <p class="card-text text-muted mb-2">
+                        <i class="bi bi-geo-alt"></i> {{ property.location }}
+                    </p>
+
+                    <span class="badge rounded-pill px-3 py-2 fs-6 mb-3" style="background-color: #6ba0fc;">
+                        ${{ "{:,.0f}".format(property.price) }}
+                    </span>
+                </div>
+
+                <div class="card-footer bg-transparent border-0 p-0">
+                    <a
+                        href="{{ url_for('property_details', propertyid=property.id) }}"
+                        class="btn w-100 rounded-bottom"
+                        style="background-color: #2ca28f; color: white; border-radius: 0;"
+                    >
+                        View Property
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endblock %}
